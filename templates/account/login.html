@@ -1,0 +1,74 @@
+{% extends "account/base.html" %}
+
+
+{% load static %}
+
+
+
+{% block content %}
+
+    {% if form.errors %}
+        <p>
+        Your username and password didn't match.
+        Please try again.
+        </p>
+    {% else %}
+        <p>Please, use the following form to log-in:</p>
+    {% endif %}
+    
+                <!-- form -->
+                <form method="post" action="{% url 'login' %}"  class="space-y-7 text-sm text-black font-medium dark:text-white"
+                    uk-scrollspy="target: > *; cls: uk-animation-scale-up; delay: 100 ;repeat: true">
+
+                    <!-- email -->
+                    <div>
+                        {% csrf_token %}
+                        {{ form.username.label_tag }}
+                        <div class="mt-2.5">
+                            {{ form.username }}
+                        </div>
+                    </div>
+                    <!-- password -->
+                    <div>
+                        {{ form.password.label_tag }}
+                        <div class="mt-2.5">
+                            {{ form.password }}
+                        </div>
+                    </div>
+                    
+
+                    <div class="flex items-center justify-between">
+
+                        <div class="flex items-center gap-2.5">
+                            <input id="rememberme" name="rememberme" type="checkbox">
+                            <label for="rememberme" class="font-normal">Remember me</label>
+                        </div>
+                        <a href="#" class="text-blue-700">Forgot password </a>
+                    </div>
+
+                    <!-- submit button -->
+                    <div>
+                        <button type="submit" class="button bg-primary text-white w-full">Sign in</button>
+                    </div>
+
+                    <div class="text-center flex items-center gap-6">
+                        <hr class="flex-1 border-slate-200 dark:border-slate-800">
+                        Or continue with
+                        <hr class="flex-1 border-slate-200 dark:border-slate-800">
+                    </div>
+
+                    <!-- social login -->
+                    <div class="flex gap-2"
+                        uk-scrollspy="target: > *; cls: uk-animation-scale-up; delay: 400 ;repeat: true">
+                        <a href="#" class="button flex-1 flex items-center gap-2 bg-primary text-white text-sm">
+                            <ion-icon name="logo-facebook" class="text-lg"></ion-icon> facebook </a>
+                        <a href="#" class="button flex-1 flex items-center gap-2 bg-sky-600 text-white text-sm">
+                            <ion-icon name="logo-twitter"></ion-icon> twitter </a>
+                        <a href="#" class="button flex-1 flex items-center gap-2 bg-black text-white text-sm"> <ion-icon
+                                name="logo-github"></ion-icon> github </a>
+                    </div>
+
+                </form>
+
+
+{% endblock content %}

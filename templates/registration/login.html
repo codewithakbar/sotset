@@ -1,0 +1,93 @@
+{% extends "account/base.html" %}
+
+
+{% load static %}
+
+
+
+{% block content %}
+
+
+    {% if form.errors %}
+    <div uk-alert>
+        <div class="p-2 border bg-yellow-50 border-yellow-500/30 rounded-xl dark:bg-slate-700">
+            <div class="flex items-center justify-between gap-6">
+                
+                <!-- icon -->
+                <div class="p-1 text-white bg-yellow-500 shadow rounded-xl shadow-yellow-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8">
+                        <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+              
+                <!-- text -->
+                <div class="text-base font-semibold text-yellow-700"> Username yoki Parol hato!!! </div>
+                
+                <!-- icon close -->
+                <button type="button" class="flex p-1 text-gray-600 rounded-lg hover:bg-black/5 ml-auto uk-alert-close">
+                    <ion-icon name="close" class="text-xl"></ion-icon>
+                </button>
+
+            </div>
+        </div>
+    </div>
+    {% else %}
+        <p>Please, use the following form to log-in:</p>
+    {% endif %}
+    
+                <!-- form -->
+                <form method="post" action="{% url 'login' %}"  class="space-y-7 text-sm text-black font-medium dark:text-white"
+                    uk-scrollspy="target: > *; cls: uk-animation-scale-up; delay: 100 ;repeat: true">
+
+                    <!-- email -->
+                    <div>
+                        {% csrf_token %}
+                        {{ form.username.label_tag }}
+                        <div class="mt-2.5">
+                            {{ form.username }}
+                        </div>
+                    </div>
+                    <!-- password -->
+                    <div>
+                        {{ form.password.label_tag }}
+                        <div class="mt-2.5">
+                            {{ form.password }}
+                        </div>
+                    </div>
+                    
+
+                    <div class="flex items-center justify-between">
+
+                        <div class="flex items-center gap-2.5">
+                            <input id="rememberme" name="rememberme" type="checkbox">
+                            <label for="rememberme" class="font-normal">Remember me</label>
+                        </div>
+                        <a href="#" class="text-blue-700">Forgot password </a>
+                    </div>
+
+                    <!-- submit button -->
+                    <div>
+                        <button type="submit" class="button bg-primary text-white w-full">Sign in</button>
+                    </div>
+
+                    <div class="text-center flex items-center gap-6">
+                        <hr class="flex-1 border-slate-200 dark:border-slate-800">
+                        Or continue with
+                        <hr class="flex-1 border-slate-200 dark:border-slate-800">
+                    </div>
+
+                    <!-- social login -->
+                    <div class="flex gap-2"
+                        uk-scrollspy="target: > *; cls: uk-animation-scale-up; delay: 400 ;repeat: true">
+                        <a href="#" class="button flex-1 flex items-center gap-2 bg-primary text-white text-sm">
+                            <ion-icon name="logo-facebook" class="text-lg"></ion-icon> facebook </a>
+                        <a href="#" class="button flex-1 flex items-center gap-2 bg-sky-600 text-white text-sm">
+                            <ion-icon name="logo-twitter"></ion-icon> twitter </a>
+                        <a href="#" class="button flex-1 flex items-center gap-2 bg-black text-white text-sm"> <ion-icon
+                                name="logo-github"></ion-icon> github </a>
+                    </div>
+
+                </form>
+
+
+{% endblock content %}

@@ -31,9 +31,11 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    "account.apps.AccountConfig",
     'jazzmin',
     'modeltranslation',
 
+    'django.contrib.humanize',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -130,11 +132,11 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'uz'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tashkent'
 
-USE_I18N = True
+USE_I18N = False
 
 USE_TZ = True
 
@@ -165,3 +167,8 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 
 AUTH_USER_MODEL = 'users.User'
+
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+LOGOUT_REDIRECT_URL = '/'

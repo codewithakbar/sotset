@@ -1,6 +1,5 @@
 {% load static i18n%}
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,11 +43,12 @@
                                 <ion-icon name="close-outline" class="hidden text-2xl group-aria-expanded:block"></ion-icon>
                         </button>
                         <div id="logo">
-                            <a href="feed.html"> 
-                                <img src="assets/images/logo.png" alt="" class="w-28 md:block hidden dark:!hidden">
-                                <img src="assets/images/logo-light.png" alt="" class="dark:md:block hidden">
-                                <img src="assets/images/logo-mobile.png" class="hidden max-md:block w-20 dark:!hidden" alt="">
-                                <img src="assets/images/logo-mobile-light.png" class="hidden dark:max-md:block w-20" alt="">
+                            <a href="{% url "home:home" %}"> 
+                                <img src="{% static "assets/ranch.png" %}" alt="" style="width: 145px; height: auto;" class="w-28 md:block hidden dark:!hidden">
+                                <img src="{% static "assets/ranch.png" %}" alt="" style="width: 145px; height: auto;" class="dark:md:block hidden">
+                                <img src="{% static "assets/ranch.png" %}" style="width: 110px; height: 100%;" class="hidden max-md:block w-20 dark:!hidden" alt="">
+                                <img src="{% static "assets/ranch.png" %}" style="width: 110px; height: 100%;" class="hidden dark:max-md:block w-20" alt="">
+
                             </a>
                         </div>
                          
@@ -91,6 +91,7 @@
                         </div>
 
                         <!-- header icons -->
+                        {% if request.user.is_authenticated %}
                         <div class="flex items-center sm:gap-4 gap-2 absolute right-5 top-1/2 -translate-y-1/2 text-black">
                             <!-- create -->
                             <button type="button" class="sm:p-2 p-1 rounded-full relative sm:bg-secondery dark:text-white">
@@ -425,17 +426,17 @@
         
                             <!-- profile -->
                             <div  class="rounded-full relative bg-secondery cursor-pointer shrink-0">
-                                <img src="assets/images/avatars/avatar-2.jpg" alt="" class="sm:w-9 sm:h-9 w-7 h-7 rounded-full shadow shrink-0"> 
+                                <img src="{{request.user.avatar.url}}" alt="" class="sm:w-9 sm:h-9 w-7 h-7 rounded-full shadow shrink-0"> 
                             </div>
                             <div  class="hidden bg-white rounded-lg drop-shadow-xl dark:bg-slate-700 w-64 border2"
                                 uk-drop="offset:6;pos: bottom-right;animate-out: true; animation: uk-animation-scale-up uk-transform-origin-top-right ">
                                 
                                 <a href="timeline.html">
                                     <div class="p-4 py-5 flex items-center gap-4">
-                                        <img src="assets/images/avatars/avatar-2.jpg" alt="" class="w-10 h-10 rounded-full shadow">
+                                        <img src="{{request.user.avatar.url}}" alt="" class="w-10 h-10 rounded-full shadow">
                                         <div class="flex-1">
-                                            <h4 class="text-sm font-medium text-black">Stell johnson</h4>
-                                            <div class="text-sm mt-1 text-blue-600 font-light dark:text-white/70">@mohnson</div>
+                                            <h4 class="text-sm font-medium text-black">{{ request.user.first_name|default:request.user.username }}</h4>
+                                            <div class="text-sm mt-1 text-blue-600 font-light dark:text-white/70">@{{request.user.username}}</div>
                                         </div>
                                     </div>
                                 </a>
@@ -488,14 +489,17 @@
                                         </div>
                                     </button>   
                                     <hr class="-mx-2 my-2 dark:border-gray-600/60">
-                                    <a href="form-login.html">
-                                        <div class="flex items-center gap-2.5 hover:bg-secondery p-2 px-2.5 rounded-md dark:hover:bg-white/10"> 
-                                            <svg class="w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
-                                            </svg>
-                                            Log Out 
-                                        </div>
-                                    </a>
+                                    {% comment %} <a href="{% url "logout" %}"> {% endcomment %}
+                                        <form action="{% url 'logout' %}" method="post">
+                                            <div class="flex items-center gap-2.5 hover:bg-secondery p-2 px-2.5 rounded-md dark:hover:bg-white/10"> 
+                                                <svg class="w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                                                </svg>
+                                                {% csrf_token %}
+                                                <button type="submit">Logout</button>
+                                            </div>
+                                        </form>
+                                    {% comment %} </a> {% endcomment %}
     
                                 </nav>
 
@@ -514,8 +518,20 @@
                             </div> 
         
                         </div>
+                        {% else %}
+                        <button type="button" class="ml-auto sm:m-15 m-5 px-4 py-2.5 rounded-2xl bg-gradient-to-tr from-blue-500 to-blue-700 text-white shadow group flex items-center gap-2">
+                                <a href="{% url "login" %}">
+                                    <div class="text-base font-semibold max-sm:hidden"> Kirish </div>
+                                </a>    
+                                
+                                <svg class="w-6 h-6 -mr-1 hidden group-aria-expanded:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                            </div>
+                        {% endif %}
 
-                    </div> 
+                    </div>
 
                 </div>
 
@@ -532,30 +548,32 @@
                 <div class="pr-4" data-simplebar>
 
                     <nav id="side">
-                    
                         <ul>
-                            <li class="active">
-                                <a href="{% url "home" %}">
-                                    <img src="assets/images/icons/home.png" alt="feeds" class="w-6">
+                            <li {% if request.path == "/" %}class="active"{% endif %}>
+                                <a href="{% url "home:home" %}">
+                                    <img src="{% static "assets/images/icons/home.png" %}" alt="f" class="w-6">
                                     <span> Asosiy </span> 
                                 </a>
                             </li>
-                            <li>
+                            
+                            <li {% if request.path == "/chat/" %}class="active"{% endif %}>
                                 <a href="{% url "chat" %}">
-                                    <img src="assets/images/icons/message.png" alt="messages" class="w-5">
+                                    <img src="{% static "assets/images/icons/message.png" %}" alt="m" class="w-5">
                                     <span> Chat </span> 
                                 </a>
-                            </li> 
-                            <li>
+                            </li>
+                            
+                            <li {% if request.path == "/videolar/" %}class="active"{% endif %}>
                                 <a href="{% url "video" %}">
-                                    <img src="assets/images/icons/video.png" alt="messages" class="w-6">
-                                    <span> video </span> 
+                                    <img src="{% static "assets/images/icons/video.png" %}" alt="m" class="w-6">
+                                    <span> Videolar </span> 
                                 </a>
                             </li>
-                            <li>
+                            
+                            <li {% if request.path == "/tadbir/" %}class="active"{% endif %}>
                                 <a href="{% url "event" %}">
-                                    <img src="assets/images/icons/event.png" alt="messages" class="w-6">
-                                    <span> tadbir </span> 
+                                    <img src="{% static "assets/images/icons/event.png" %}" alt="m" class="w-6">
+                                    <span> Tadbirlar </span> 
                                 </a>
                             </li>
                             {% comment %} <li>
@@ -564,10 +582,10 @@
                                     <span> Pages </span> 
                                 </a>
                             </li> {% endcomment %}
-                            <li>
+                            <li {% if request.path == "/gruppa/" %}class="active"{% endif %}>
                                 <a href="{% url "gruppa" %}">
-                                    <img src="assets/images/icons/group.png" alt="groups" class="w-6">
-                                    <span> Gruppa </span> 
+                                    <img src="{% static "assets/images/icons/group.png" %}" alt="n" class="w-6">
+                                    <span> Guruxlar </span> 
                                 </a>
                             </li>
                             {% comment %} <li>
@@ -576,10 +594,10 @@
                                     <span> market </span> 
                                 </a>
                             </li>  {% endcomment %}
-                            <li>
+                            <li {% if request.path == "/blog/" %}class="active"{% endif %}>
                                 <a href="{% url "blog" %}">
-                                    <img src="assets/images/icons/blog.png" alt="blog" class="w-6">
-                                    <span> blog </span> 
+                                    <img src="{% static "assets/images/icons/blog.png" %}" alt="blog" class="w-6">
+                                    <span> Maqolalar </span> 
                                 </a>
                             </li> 
 
@@ -650,6 +668,7 @@
     </div>
 
 
+    {% if request.user.is_authenticated %}
     <div>
         <button type="button" class="sm:m-10 m-5 px-4 py-2.5 rounded-2xl bg-gradient-to-tr from-blue-500 to-blue-700 text-white shadow fixed bottom-0 right-0 group flex items-center gap-2">
             
@@ -892,6 +911,7 @@
               <div class="w-3.5 h-3.5 absolute -bottom-2 right-5 bg-white rotate-45 dark:bg-dark3"></div>
         </div>
     </div>
+    {% endif %}
 
     
     <!-- post preview modal --> 

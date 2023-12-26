@@ -27,7 +27,8 @@ from home import views as HomeViews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include("home.urls")),
+    path('', include("home.urls", namespace="home")),
+    path('account/', include('account.urls')),
     path('chat/', include("messager.urls")),
     path('videolar/', include("video.urls")),
     path('tadbir/', include("events.urls")),
@@ -38,6 +39,8 @@ urlpatterns = [
 
 if DEBUG:
     urlpatterns += static(STATIC_URL, document_root=STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

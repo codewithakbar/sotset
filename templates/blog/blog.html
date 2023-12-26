@@ -224,7 +224,7 @@
                     <!-- articale list layout -->
                     <div class="box p-5 mt-4">
     
-                        {% for post in posts %}
+                        {% comment %} {% for post in posts %}
                             <div class="card-list">
                                 <div class="card-list-body">
                                     <h3 class="card-list-title">{{ post.title }}</h3>
@@ -244,31 +244,34 @@
                                 </div>
                             </div>
                             <hr class="card-list-divider">
-                        {% endfor %}
-                        <div class="card-list">
-                            <a href="blog-read.html" class="lg:order-1">
-                                <div class="card-list-media h-32">
-                                    <img src="assets/images/blog/img-3.jpg" alt="">
-                                </div>
-                            </a>
-                            <div class="card-list-body">
-                                <a href="blog-read.html"> <h3 class="card-list-title"> Interesting JavaScript and CSS libraries should Know About </h3> </a>
-                                <p class="card-list-text"> consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam,</p>
-                                <a href="#"> <div class="card-list-link"> Monroe Parker </div> </a>
-                                <div class="card-list-info">
-                                    <div class="flex items-center gap-2"> 
-                                        <ion-icon name="heart-outline" class="text-lg"></ion-icon>
-                                        45
+                        {% endfor %} {% endcomment %}
+
+                        {% for post in posts %}
+                            <div class="card-list">
+                                <a href="blog-read.html" class="lg:order-1">
+                                    <div class="card-list-media h-32">
+                                        <img src="assets/images/blog/img-3.jpg" alt="">
                                     </div>
-                                    <div class="md:block hidden">·</div>
-                                    <div class="flex items-center gap-2"> 
-                                        <ion-icon name="chatbubble-ellipses-outline" class="text-lg"></ion-icon>
-                                        156.9K 
+                                </a>
+                                <div class="card-list-body">
+                                    <a href="{% url "post_detail" post.id %}"> <h3 class="card-list-title">{{ post.title }}</h3> </a>
+                                    <p class="card-list-text">{{ post.body }}</p>
+                                    <a href="#"> <div class="card-list-link"> {{post.author}} </div> </a>
+                                    <div class="card-list-info">
+                                        <div class="flex items-center gap-2"> 
+                                            <ion-icon name="heart-outline" class="text-lg"></ion-icon>
+                                            45
+                                        </div>
+                                        <div class="md:block hidden">·</div>
+                                        <div class="flex items-center gap-2"> 
+                                            <ion-icon name="chatbubble-ellipses-outline" class="text-lg"></ion-icon>
+                                            {{ post.viewers }} 
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <hr class="card-list-divider">
+                            <hr class="card-list-divider">
+                        {% endfor %}
                         <div class="card-list">
                             <a href="blog-read.html" class="lg:order-1">
                                 <div class="card-list-media h-32">
