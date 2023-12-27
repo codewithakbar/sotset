@@ -31,3 +31,8 @@ def user_login(request):
 def dashboard(request):
     return render(request, 'account/dashboard.html', {'section': 'dashboard'})
 
+
+@login_required
+def acc_settings(request):
+    return render(request, 'account/settings.html')
+
