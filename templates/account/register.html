@@ -1,0 +1,91 @@
+{% extends "account/base.html" %}
+
+{% load static %}
+
+
+{% block content %}
+
+        <!-- form -->
+        <form method="post" action="#" class="space-y-7 text-sm text-black font-medium dark:text-white"  uk-scrollspy="target: > *; cls: uk-animation-scale-up; delay: 100 ;repeat: true">
+            
+            <div class="grid grid-cols-2 gap-4 gap-y-7">
+       
+                {% csrf_token %}
+              <div class="col-span-2">
+                {{ user_form.username.label_tag }}
+                  <div class="mt-2.5">
+                      {{user_form.username}}
+                  </div>
+              </div>
+
+              <div class="col-span-2">
+                {{ user_form.first_name.label_tag }}
+                  <div class="mt-2.5">
+                      {{user_form.first_name}}
+                  </div>
+              </div>
+  
+                <div class="col-span-2">
+                    {{ user_form.last_name.label_tag }}
+                    <div class="mt-2.5">
+                        {{user_form.last_name}}
+                    </div>
+                </div>
+            
+              <!-- email -->
+                <div class="col-span-2">
+                    {{ user_form.email.label_tag }}
+                    <div class="mt-2.5">
+                        {{ user_form.email }}
+                    </div>
+                </div>
+  
+              <!-- password -->
+              <div>
+                {{ user_form.password.label_tag }}
+                <div class="mt-2.5">
+                    {{ user_form.password }}
+                </div>
+              </div>
+  
+              <!-- Confirm Password -->
+              <div class="col-span-2">
+                {{ user_form.password.label_tag }}
+                  <div class="mt-2.5">
+                    {{ user_form.password2 }}
+                  </div>
+              </div>
+  
+              <div class="col-span-2">
+  
+                <label class="inline-flex items-center" id="rememberme">
+                  <input type="checkbox" id="accept-terms" class="!rounded-md accent-red-800" />
+                  <span class="ml-2">you agree to our <a href="#" class="text-blue-700 hover:underline">terms of use </a> </span>
+                </label>
+                
+              </div>
+  
+  
+              <!-- submit button -->
+              <div class="col-span-2">
+                <button type="submit" class="button bg-primary text-white w-full">Get Started</button>
+              </div>
+  
+            </div>
+  
+            <div class="text-center flex items-center gap-6"> 
+              <hr class="flex-1 border-slate-200 dark:border-slate-800"> 
+              Or continue with  
+              <hr class="flex-1 border-slate-200 dark:border-slate-800">
+            </div> 
+  
+            <!-- social login -->
+            <div class="flex gap-2" uk-scrollspy="target: > *; cls: uk-animation-scale-up; delay: 400 ;repeat: true">
+              <a href="#" class="button flex-1 flex items-center gap-2 bg-primary text-white text-sm"> <ion-icon name="logo-facebook" class="text-lg"></ion-icon> facebook  </a>
+              <a href="#" class="button flex-1 flex items-center gap-2 bg-sky-600 text-white text-sm"> <ion-icon name="logo-twitter"></ion-icon> twitter  </a>
+              <a href="#" class="button flex-1 flex items-center gap-2 bg-black text-white text-sm"> <ion-icon name="logo-github"></ion-icon> github  </a>
+            </div>
+            
+          </form>
+
+{% endblock content %}

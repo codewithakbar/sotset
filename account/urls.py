@@ -11,4 +11,5 @@ urlpatterns = [
     
     path('settings/', views.acc_settings, name='settings'),
     path('', views.dashboard, name='dashboard'),
+    path('register/', views.register, name='register'),
 ]

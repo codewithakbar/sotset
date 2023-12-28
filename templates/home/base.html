@@ -427,7 +427,9 @@
                             <!-- profile -->
                             <div  class="rounded-full relative bg-secondery cursor-pointer shrink-0">
                                 {% if request.user.avatar %}
-                                <img src="{{request.user.avatar.url}}" alt="" class="sm:w-9 sm:h-9 w-7 h-7 rounded-full shadow shrink-0"> 
+                                    <img src="{{request.user.avatar.url}}" alt="" class="sm:w-9 sm:h-9 w-7 h-7 rounded-full shadow shrink-0"> 
+                                {% else %}
+                                    <img src="{% static "assets/images/avatars/noavatar.jpg" %}" alt="" class="sm:w-9 sm:h-9 w-7 h-7 rounded-full shadow shrink-0"> 
                                 {% endif %}
                             </div>
                             <div  class="hidden bg-white rounded-lg drop-shadow-xl dark:bg-slate-700 w-64 border2"
@@ -436,7 +438,9 @@
                                 <a href="timeline.html">
                                     <div class="p-4 py-5 flex items-center gap-4">
                                         {% if request.user.avatar %}
-                                        <img src="{{request.user.avatar.url}}" alt="" class="w-10 h-10 rounded-full shadow">
+                                            <img src="{{request.user.avatar.url}}" alt="" class="w-10 h-10 rounded-full shadow">
+                                        {% else %}
+                                            <img src="{% static "assets/images/avatars/noavatar.jpg" %}" alt="" class="w-10 h-10 rounded-full shadow">
                                         {% endif %}
                                         <div class="flex-1">
                                             <h4 class="text-sm font-medium text-black">{{ request.user.first_name|default:request.user.username }}</h4>

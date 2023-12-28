@@ -21,7 +21,11 @@
                         <div class="relative md:w-20 md:h-20 w-12 h-12 shrink-0"> 
     
                             <label for="file" class="cursor-pointer">
-                                <img id="img" src="{{request.user.avatar.url}}" class="object-cover w-full h-full rounded-full" alt=""/>
+                                {% if request.user.avatar %}
+                                    <img id="img" src="{{request.user.avatar.url}}" class="object-cover w-full h-full rounded-full" alt=""/>
+                                {% else %}
+                                    <img id="img" src="{% static "assets/images/avatars/noavatar.jpg" %}" class="object-cover w-full h-full rounded-full" alt=""/>
+                                {% endif %}
                                 <input type="file" id="file" class="hidden" />
                             </label>
       
