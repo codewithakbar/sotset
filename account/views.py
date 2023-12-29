@@ -2,8 +2,10 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
+from django.contrib import messages
 
-from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
+from .forms import LoginForm, UserAvatarUploadForm, UserRegistrationForm, UserEditForm, ProfileEditForm
 from .models import Profile
 
 
@@ -57,27 +59,51 @@ def register(request):
 @login_required
 def edit(request):
     try:
-        profile = request.user.profile
+        profile_instance = request.user.profile
     except Profile.DoesNotExist:
-        profile = None
+        profile_instance = Profile(user=request.user)
 
     if request.method == 'POST':
-        user_form = UserEditForm(instance=request.user, data=request.POST)
-        profile_form = ProfileEditForm(instance=profile, data=request.POST, files=request.FILES)
+        user_form = UserEditForm(instance=request.user, data=request.POST, files=request.FILES)
+        profile_form = ProfileEditForm(instance=profile_instance, data=request.POST, files=request.FILES)
 
         if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
+            user_form.save()            
+            profile_form.save()
+            messages.success(request, 'Profil muvaffaqiyatli yangilandi')
+        else:
+            messages.error(request, 'Xatolik, profil yangilanishida')
+
+    elif request.method == "PUT":
+        user_form = UserEditForm(instance=request.user, data=request.POST, files=request.FILES)
+        profile_form = ProfileEditForm(instance=profile_instance, data=request.POST, files=request.FILES)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()            
+            profile_form.save()
+            messages.success(request, 'Profil muvaffaqiyatli yangilandi')
+        else:
+            messages.error(request, 'Xatolik, profil yangilanishida')
             
-            # Check if the profile exists before saving
-            if profile:
-                profile_form.save()
-            else:
-                # If the user doesn't have a profile, create a new one
-                new_profile = profile_form.save(commit=False)
-                new_profile.user = request.user
-                new_profile.save()
     else:
         user_form = UserEditForm(instance=request.user)
-        profile_form = ProfileEditForm(instance=profile)
+        profile_form = ProfileEditForm(instance=profile_instance)
 
     return render(request, 'account/settings.html', {'user_form': user_form, 'profile_form': profile_form})
+
+
+@login_required
+@require_http_methods(["PUT"])
+def upload_avatar(request):
+    if request.method == 'PUT':
+        user_avatar_form = UserAvatarUploadForm(instance=request.user, data=request.POST, files=request.FILES)
+
+        if user_avatar_form.is_valid():
+            user_avatar_form.save()
+            messages.success(request, 'Avatar muvaffaqiyatli yangilandi')
+        else:
+            messages.error(request, 'Xatolik, avatar yangilanishida')
+    else:
+        user_avatar_form = UserAvatarUploadForm(instance=request.user)
+    
+    return render(request, 'account/settings.html', {'avatar_form': user_avatar_form})
