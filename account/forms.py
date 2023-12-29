@@ -63,6 +63,21 @@ class UserAvatarUploadForm(forms.ModelForm):
         self.fields['avatar'].widget.attrs['name'] = "avatar"
 
 
+class UserBGAvatarUploadForm(forms.ModelForm):
+    bg_avatar = forms.ImageField(required=False)
+
+    class Meta:
+        model = User
+        fields = ['bg_avatar']
+
+    def __init__(self, *args, **kwargs):
+        super(UserBGAvatarUploadForm, self).__init__(*args, **kwargs)
+        
+        self.fields['bg_avatar'].widget.attrs['class'] = "hidden"
+        self.fields['bg_avatar'].widget.attrs['id'] = "createStatusUrl"
+        self.fields['bg_avatar'].widget.attrs['type'] = "file"
+
+
 class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = Profile

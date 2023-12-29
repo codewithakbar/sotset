@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.contrib import messages
 
-from .forms import LoginForm, UserAvatarUploadForm, UserRegistrationForm, UserEditForm, ProfileEditForm
+from .forms import LoginForm, UserAvatarUploadForm, UserBGAvatarUploadForm, UserRegistrationForm, UserEditForm, ProfileEditForm
 from .models import Profile
 
 
@@ -107,3 +107,21 @@ def upload_avatar(request):
         user_avatar_form = UserAvatarUploadForm(instance=request.user)
     
     return render(request, 'account/settings.html', {'avatar_form': user_avatar_form})
+
+
+
+@login_required
+def user_profile(request):
+    if request.method == 'POST':
+        user_avatar_form = UserBGAvatarUploadForm(instance=request.user, data=request.POST, files=request.FILES)
+
+        if user_avatar_form.is_valid():
+            user_avatar_form.save()
+            messages.success(request, 'Avatar muvaffaqiyatli yangilandi')
+        else:
+            messages.error(request, 'Xatolik, avatar yangilanishida')
+    else:
+        user_avatar_form = UserBGAvatarUploadForm(instance=request.user)
+
+    return render(request, "account/profile.html", {'bg_avatar_form': user_avatar_form})
+
