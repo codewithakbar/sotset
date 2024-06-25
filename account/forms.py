@@ -23,11 +23,10 @@ class UserRegistrationForm(forms.ModelForm):
     
     
 class UserEditForm(forms.ModelForm):
-    avatar = forms.ImageField(required=False)
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'avatar']
+        fields = ['username', 'first_name', 'last_name', 'email']
 
     def __init__(self, *args, **kwargs):
         super(UserEditForm, self).__init__(*args, **kwargs)
@@ -41,10 +40,10 @@ class UserEditForm(forms.ModelForm):
             self.fields['last_name'].widget.attrs['placeholder'] = current_user.last_name
 
             self.fields['email'].widget.attrs['placeholder'] = current_user.email
-            self.fields['avatar'].widget.attrs['class'] = "hidden"
-            self.fields['avatar'].widget.attrs['id'] = "file"
-            self.fields['avatar'].widget.attrs['type'] = "file"
-            self.fields['avatar'].widget.attrs['name'] = "avatar"
+            # self.fields['avatar'].widget.attrs['class'] = "hidden"
+            # self.fields['avatar'].widget.attrs['id'] = "file"
+            # self.fields['avatar'].widget.attrs['type'] = "file"
+            # self.fields['avatar'].widget.attrs['name'] = "avatar"
 
 
 class UserAvatarUploadForm(forms.ModelForm):

@@ -72,7 +72,7 @@ def edit(request):
             profile_form.save()
             messages.success(request, 'Profil muvaffaqiyatli yangilandi')
         else:
-            messages.error(request, 'Xatolik, profil yangilanishida')
+            messages.error(request, 'Xatolik, profil1 yangilanishida')
 
     elif request.method == "PUT":
         user_form = UserEditForm(instance=request.user, data=request.POST, files=request.FILES)
@@ -83,7 +83,7 @@ def edit(request):
             profile_form.save()
             messages.success(request, 'Profil muvaffaqiyatli yangilandi')
         else:
-            messages.error(request, 'Xatolik, profil yangilanishida')
+            messages.error(request, 'Xatolik, profil1 yangilanishida')
             
     else:
         user_form = UserEditForm(instance=request.user)
@@ -124,4 +124,19 @@ def user_profile(request):
         user_avatar_form = UserBGAvatarUploadForm(instance=request.user)
 
     return render(request, "account/profile.html", {'bg_avatar_form': user_avatar_form})
+
+@login_required
+def user_settings(request):
+    if request.method == 'POST':
+        user_avatar_form = UserAvatarUploadForm(instance=request.user, data=request.POST, files=request.FILES)
+
+        if user_avatar_form.is_valid():
+            user_avatar_form.save()
+            messages.success(request, 'Avatar muvaffaqiyatli yangilandi')
+        else:
+            messages.error(request, 'Xatolik, avatar yangilanishida')
+    else:
+        user_avatar_form = UserAvatarUploadForm(instance=request.user)
+
+    return render(request, "account/settings.html", {'bg_avatar_form': user_avatar_form})
 
